@@ -15,4 +15,6 @@ public interface PersonService {
   public void updatePerson(Long id, Person newPerson);
 
   public void removePerson(Long id);
+
+  public void updatePerson2(Long id, Person newPerson);
 }

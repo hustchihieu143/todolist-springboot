@@ -58,4 +58,17 @@ public class PersonServiceImpl implements PersonService {
     personRepository.deleteById(id);
   }
 
+  @Override
+  public void updatePerson2(Long id, Person newPerson) {
+    Person person = personRepository.findPersonByPersonIdAndIsDelete(id);
+    System.out.println(newPerson.getName());
+    if (newPerson.name != null) {
+      person.name = newPerson.name;
+    }
+    if (newPerson.age != 0) {
+      person.age = newPerson.age;
+    }
+    personRepository.save(person);
+  }
+
 }

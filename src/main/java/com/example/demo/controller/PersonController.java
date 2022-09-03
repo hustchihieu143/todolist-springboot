@@ -52,7 +52,7 @@ public class PersonController {
 
   @PutMapping("/update/{id}")
   public BaseResponse<String> updatePerson(@PathVariable("id") Long id, @RequestBody Person person) {
-    personService.updatePerson(id, person);
+    personService.updatePerson2(id, person);
     return BaseResponse.ofSuccess("Updated");
   }
 

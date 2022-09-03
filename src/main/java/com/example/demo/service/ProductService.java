@@ -12,4 +12,6 @@ public interface ProductService {
   public void removeProduct(Long id);
 
   public Product findById(Long id);
+
+  public void updateProduct2(Long id, Product product);
 }
