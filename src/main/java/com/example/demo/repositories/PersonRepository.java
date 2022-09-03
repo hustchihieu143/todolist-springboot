@@ -1,0 +1,33 @@
+package com.example.demo.repositories;
+
+import java.util.List;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Query;
+
+import com.example.demo.entity.Person;
+import com.example.demo.model.response.PersonResponse;
+
+@Transactional
+public interface PersonRepository extends JpaRepository<Person, Long> {
+
+  // public List<Person> getPerson() {
+  // Query q = em.createNativeQuery("SELECT * FROM persons");
+  // List<Person> persons = q.getResultList();
+  // return persons;
+  // }
+  @Query(value = "SELECT p.* FROM persons p", nativeQuery = true)
+  Optional<List<Person>> getListPerson();
+
+  @Query(value = "select p.* from persons p where p.id = :person_id", nativeQuery = true)
+  Person findPersonByPersonIdAndIsDelete(Long person_id);
+
+  @Transactional
+  @Modifying
+  @Query(value = "update persons p set p.name = :name, p.age = :age where p.id = :person_id", nativeQuery = true)
+  void updatePerson(Long person_id, String name, int age);
+
+  void deleteById(Long id);
+}
