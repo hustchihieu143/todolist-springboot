@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.entity.Person;
 import com.example.demo.model.response.PersonResponse;
+import com.example.demo.request.PersonRequest;
 
 @Transactional
 public interface PersonRepository extends JpaRepository<Person, Long> {
@@ -37,4 +38,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
   void deleteById(Long id);
 
   List<Person> findAllByOrderByAgeDesc();
+
+  Person save(PersonRequest newPerson);
 }

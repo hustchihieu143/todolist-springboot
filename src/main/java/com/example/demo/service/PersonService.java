@@ -6,10 +6,11 @@ import org.springframework.data.domain.Page;
 
 import com.example.demo.entity.Person;
 import com.example.demo.model.response.PersonResponse;
+import com.example.demo.request.PersonRequest;
 
 public interface PersonService {
 
-  public Person createPerson(Person newPerson);
+  public Person createPerson(PersonRequest newPerson);
 
   public Person getPersonById(Long id);
 

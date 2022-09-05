@@ -15,6 +15,7 @@ import com.example.demo.exception.ErrorResponse;
 import com.example.demo.mapper.PersonMapper;
 import com.example.demo.model.response.PersonResponse;
 import com.example.demo.repositories.PersonRepository;
+import com.example.demo.request.PersonRequest;
 import com.example.demo.service.PersonService;
 
 import lombok.AllArgsConstructor;
@@ -26,12 +27,13 @@ import lombok.extern.log4j.Log4j2;
 public class PersonServiceImpl implements PersonService {
 
   private final PersonRepository personRepository;
-  private final PersonMapper mapper;
+  private final PersonMapper personMapper;
 
   @Override
-  public Person createPerson(Person newPerson) {
-    Person person = personRepository.save(newPerson);
-    return person;
+  public Person createPerson(PersonRequest newPerson) {
+    Person person = personMapper.to(newPerson);
+    return personRepository.save(person);
+
   }
 
   @Override

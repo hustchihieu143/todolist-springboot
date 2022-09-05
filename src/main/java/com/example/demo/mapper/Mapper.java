@@ -13,4 +13,5 @@ public interface Mapper<T> {
   default <Q> Set<Q> toSet(List<T> ts, Function<T, Q> mapper) {
     return ts.stream().map(mapper).collect(Collectors.toSet());
   }
+
 }

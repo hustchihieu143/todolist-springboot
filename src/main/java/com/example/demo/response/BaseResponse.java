@@ -1,6 +1,8 @@
 package com.example.demo.response;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.example.demo.entity.Person;
 
@@ -12,7 +14,6 @@ import lombok.Setter;
 public class BaseResponse<T> {
   private int code;
   private T data;
-  private List<T> listData;
 
   private BaseResponse(int code, T data) {
     this.code = code;

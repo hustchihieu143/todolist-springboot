@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Person;
 import com.example.demo.model.response.PersonResponse;
+import com.example.demo.request.PersonRequest;
 import com.example.demo.response.BaseResponse;
 import com.example.demo.service.PersonService;
 
@@ -36,13 +37,13 @@ public class PersonController {
 
   @GetMapping("/")
   @ResponseBody
-  public List<PersonResponse> getPerson() {
+  public BaseResponse<List<PersonResponse>> getPerson() {
     List<PersonResponse> persons = this.personService.getAllPerson();
-    return persons;
+    return BaseResponse.ofSuccess(persons);
   }
 
   @PostMapping("/create")
-  public BaseResponse<Person> createPerson(@RequestBody Person person) {
+  public BaseResponse<Person> createPerson(@RequestBody PersonRequest person) {
     Person newPerson = personService.createPerson(person);
     return BaseResponse.ofSuccess(newPerson);
   }
