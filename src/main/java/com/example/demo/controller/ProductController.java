@@ -52,4 +52,10 @@ public class ProductController {
     productService.updateProduct2(id, product);
     return BaseResponse.ofSuccess("Updated");
   }
+
+  @GetMapping("/find-by-person_id/{id}")
+  public BaseResponse<Product> findByPersonId(@PathVariable("id") Long id) {
+    Product product = productService.findByPerson_Id(id);
+    return BaseResponse.ofSuccess(product);
+  }
 }

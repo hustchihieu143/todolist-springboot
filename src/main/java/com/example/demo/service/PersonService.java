@@ -13,7 +13,7 @@ public interface PersonService {
 
   public Person getPersonById(Long id);
 
-  public List<Person> getAllPerson();
+  public List<PersonResponse> getAllPerson();
 
   public void updatePerson(Long id, Person newPerson);
 
@@ -24,4 +24,5 @@ public interface PersonService {
   public Page<Person> getAllPerson2(int page, int limit);
 
   public List<Person> findAllOrderByAgeAsc();
+
 }

@@ -1,5 +1,9 @@
 package com.example.demo.response;
 
+import java.util.List;
+
+import com.example.demo.entity.Person;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +12,7 @@ import lombok.Setter;
 public class BaseResponse<T> {
   private int code;
   private T data;
+  private List<T> listData;
 
   private BaseResponse(int code, T data) {
     this.code = code;
@@ -16,6 +21,14 @@ public class BaseResponse<T> {
 
   public static <T> BaseResponse<T> ofSuccess(T data) {
     return new BaseResponse<>(200, data);
+  }
+
+  public static <T> BaseResponse<T> notFound(T data) {
+    return new BaseResponse<>(404, data);
+  }
+
+  public static <T> BaseResponse<T> badRequest(T data) {
+    return new BaseResponse<>(400, data);
   }
 
   // public static <T> BaseResponse<T> ofSuccess(HttpStatus status, T data) {

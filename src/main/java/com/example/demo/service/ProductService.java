@@ -14,4 +14,6 @@ public interface ProductService {
   public Product findById(Long id);
 
   public void updateProduct2(Long id, Product product);
+
+  public Product findByPerson_Id(Long id);
 }

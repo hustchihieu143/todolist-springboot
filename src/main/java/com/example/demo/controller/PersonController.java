@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Person;
+import com.example.demo.model.response.PersonResponse;
 import com.example.demo.response.BaseResponse;
 import com.example.demo.service.PersonService;
 
@@ -35,8 +36,8 @@ public class PersonController {
 
   @GetMapping("/")
   @ResponseBody
-  public List<Person> getPerson() {
-    List<Person> persons = this.personService.getAllPerson();
+  public List<PersonResponse> getPerson() {
+    List<PersonResponse> persons = this.personService.getAllPerson();
     return persons;
   }
 

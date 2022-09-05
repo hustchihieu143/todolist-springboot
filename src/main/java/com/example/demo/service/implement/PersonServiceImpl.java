@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +42,16 @@ public class PersonServiceImpl implements PersonService {
 
   @Override
   @Transactional
-  public List<Person> getAllPerson() {
+  public List<PersonResponse> getAllPerson() {
     List<Person> list = personRepository.getListPerson()
         .orElseThrow(() -> new IllegalStateException("person not found"));
-    return list.stream().map(a -> a).collect(Collectors.toList());
+    return list.stream().map(person -> {
+      PersonResponse personResponse = new PersonResponse();
+      personResponse.setId(person.getId());
+      personResponse.setName(person.getName());
+      personResponse.setAge(person.getAge());
+      return personResponse;
+    }).collect(Collectors.toList());
   }
 
   @Override
@@ -75,7 +82,8 @@ public class PersonServiceImpl implements PersonService {
 
   @Override
   public Page<Person> getAllPerson2(int page, int limit) {
-    Page<Person> persons = personRepository.findAll(PageRequest.of(page, limit));
+    Page<Person> persons = personRepository
+        .findAll(PageRequest.of(page, limit, Sort.by("age").descending().by("name").ascending()));
     return persons;
   }
 
