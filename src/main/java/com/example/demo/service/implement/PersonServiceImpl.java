@@ -3,6 +3,8 @@ package com.example.demo.service.implement;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +71,17 @@ public class PersonServiceImpl implements PersonService {
       person.age = newPerson.age;
     }
     personRepository.save(person);
+  }
+
+  @Override
+  public Page<Person> getAllPerson2(int page, int limit) {
+    Page<Person> persons = personRepository.findAll(PageRequest.of(page, limit));
+    return persons;
+  }
+
+  @Override
+  public List<Person> findAllOrderByAgeAsc() {
+    return personRepository.findAllByOrderByAgeDesc();
   }
 
 }

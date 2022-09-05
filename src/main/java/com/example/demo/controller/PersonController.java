@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,6 +62,17 @@ public class PersonController {
   public BaseResponse<String> deletePerson(@PathVariable("id") Long id) {
     personService.removePerson(id);
     return BaseResponse.ofSuccess("Deleted");
+  }
+
+  @GetMapping("/get-all-persons-paginate")
+  public Page<Person> getAllPerson(@RequestParam(required = false) int page,
+      @RequestParam(required = false) int limit) {
+    return personService.getAllPerson2(page, limit);
+  }
+
+  @GetMapping("/sort-by-age")
+  public List<Person> findAllOrderByAgeAsc() {
+    return personService.findAllOrderByAgeAsc();
   }
 
 }
