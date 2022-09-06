@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.example.demo.entity.Person;
-import com.example.demo.model.response.PersonResponse;
+
 import com.example.demo.request.PersonRequest;
+import com.example.demo.response.PersonResponse;
 
 public interface PersonService {
 

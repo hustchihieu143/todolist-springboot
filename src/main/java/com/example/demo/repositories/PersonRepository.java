@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.entity.Person;
-import com.example.demo.model.response.PersonResponse;
 import com.example.demo.request.PersonRequest;
 
 @Transactional

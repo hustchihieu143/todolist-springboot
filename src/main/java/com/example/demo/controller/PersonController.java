@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Person;
-import com.example.demo.model.response.PersonResponse;
 import com.example.demo.request.PersonRequest;
 import com.example.demo.response.BaseResponse;
+import com.example.demo.response.PersonResponse;
 import com.example.demo.service.PersonService;
 
 import lombok.AllArgsConstructor;

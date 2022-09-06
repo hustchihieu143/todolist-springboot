@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.Person;
 import com.example.demo.exception.ErrorResponse;
 import com.example.demo.mapper.PersonMapper;
-import com.example.demo.model.response.PersonResponse;
 import com.example.demo.repositories.PersonRepository;
 import com.example.demo.request.PersonRequest;
+import com.example.demo.response.PersonResponse;
 import com.example.demo.service.PersonService;
 
 import lombok.AllArgsConstructor;
