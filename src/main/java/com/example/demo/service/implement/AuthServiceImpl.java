@@ -1,5 +1,7 @@
 package com.example.demo.service.implement;
 
+import org.apache.juli.logging.Log;
+import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +11,17 @@ import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.ErrorResponse;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.request.AuthRequest;
 import com.example.demo.request.UserRequest;
+import com.example.demo.response.AuthResponse;
 import com.example.demo.response.UserResponse;
+import com.example.demo.security.jwt.JwtTokenUtil;
 import com.example.demo.service.AuthService;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,6 +33,9 @@ public class AuthServiceImpl implements AuthService {
 
   private final UserMapper userMapper;
   private final UserRepository userRepository;
+  private final AuthenticationManager authenticationManager;
+  private final JwtTokenUtil jwtTokenUtil;
+  private final Logger log;
 
   @Override
   public UserEntity createUser(UserRequest userRequest) {
@@ -41,9 +54,22 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
-  public UserResponse login() {
+  public AuthResponse login(AuthRequest request) {
     // TODO Auto-generated method stub
-    return null;
+    try {
+
+      Authentication authenticate = authenticationManager
+          .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+      log.info("authenticated: ", authenticate.toString());
+      String accessToken = jwtTokenUtil.generateAccessToken((UserDetails) authenticate.getPrincipal());
+      UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
+      UserEntity user = userRepository.findByEmail(userDetails.getUsername());
+
+      return new AuthResponse(user.getEmail(), accessToken, null);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      throw ex;
+    }
   }
 
 }
