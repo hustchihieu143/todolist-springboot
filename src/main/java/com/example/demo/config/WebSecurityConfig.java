@@ -44,11 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private AuthEntryPointJwt unauthorizedHandler;
 
   @Bean
-  UserDetailsServiceImpl userDetails() {
-    return new UserDetailsServiceImpl();
-  }
-
-  @Bean
   public JwtTokenFilter authenticationJwtTokenFilter() {
     return new JwtTokenFilter();
   }

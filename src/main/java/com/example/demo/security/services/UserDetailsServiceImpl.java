@@ -11,9 +11,11 @@ import com.example.demo.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   private UserRepository userRepository;
 
