@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -13,23 +14,21 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "exam_result_detail")
+@Table(name = "exam_details")
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-@EntityListeners(value = BaseEntityListener.class)
-public class ExamResultDetailEntity extends BaseEntity {
+public class ExamDetail extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "exam_result_id", referencedColumnName = "id")
-  ExamResultEntity exam_result;
+  @JoinColumn(name = "exam_id")
+  private Exam exam;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "question_id", referencedColumnName = "id")
-  QuestionEntity question;
+  @JoinColumn(name = "question_id")
+  private Question question;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "answer_id", referencedColumnName = "id")
-  AnswerEntity answer;
+  @Column(name = "question_order")
+  private int questionOrder;
 }

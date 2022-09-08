@@ -1,20 +1,16 @@
 package com.example.demo.service.implement;
 
-import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.User;
 import com.example.demo.exception.BusinessCode;
 import com.example.demo.exception.BusinessException;
-import com.example.demo.exception.ErrorResponse;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.request.AuthRequest;
 import com.example.demo.request.UserRequest;
 import com.example.demo.response.AuthResponse;
-import com.example.demo.response.UserResponse;
 import com.example.demo.security.jwt.JwtTokenUtil;
 import com.example.demo.service.AuthService;
 
@@ -24,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -38,8 +33,8 @@ public class AuthServiceImpl implements AuthService {
   private final Logger log;
 
   @Override
-  public UserEntity createUser(UserRequest userRequest) {
-    UserEntity user = new UserEntity();
+  public User createUser(UserRequest userRequest) {
+    User user = new User();
     user = userRepository.findByEmail(userRequest.getEmail());
     if (user != null) {
       throw new BusinessException(BusinessCode.ALREADY_EXISTS_USER);
@@ -63,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
       log.info("authenticated: ", authenticate.toString());
       String accessToken = jwtTokenUtil.generateAccessToken((UserDetails) authenticate.getPrincipal());
       UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
-      UserEntity user = userRepository.findByEmail(userDetails.getUsername());
+      User user = userRepository.findByEmail(userDetails.getUsername());
 
       return new AuthResponse(user.getEmail(), accessToken, null);
     } catch (Exception ex) {

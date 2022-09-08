@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @EntityListeners(value = BaseEntityListener.class)
-public class UserEntity extends BaseEntity {
+public class User extends BaseEntity {
   @Column(name = "name")
   private String name;
 
@@ -32,11 +32,11 @@ public class UserEntity extends BaseEntity {
   private String password;
 
   @Column(name = "is_admin")
-  private int is_admin;
+  private int isAdmin;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-  List<AnnouncementEntity> announcements;
+  List<Announcement> announcements;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-  List<ExamApplicationEntity> exam_applications;
+  List<ExamApplication> examApplications;
 }

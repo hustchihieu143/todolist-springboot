@@ -20,11 +20,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @EntityListeners(value = BaseEntityListener.class)
-public class AnnouncementEntity extends BaseEntity {
+public class Announcement extends BaseEntity {
   @Column(name = "content")
   private String content;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
-  private UserEntity user;
+  private User user;
 }

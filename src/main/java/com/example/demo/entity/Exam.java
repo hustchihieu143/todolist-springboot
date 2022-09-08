@@ -22,7 +22,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @EntityListeners(value = BaseEntityListener.class)
-public class ExamEntity extends BaseEntity {
+public class Exam extends BaseEntity {
   @Column(name = "level")
   private int level;
 
@@ -45,8 +45,8 @@ public class ExamEntity extends BaseEntity {
   private int status;
 
   @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
-  List<ExamDetailEntity> exam_details;
+  List<ExamDetail> examDetails;
 
   @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
-  List<ExamApplicationEntity> exam_applications;
+  List<ExamApplication> examApplications;
 }

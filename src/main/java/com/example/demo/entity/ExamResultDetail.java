@@ -13,20 +13,23 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "question_list_detail")
+@Table(name = "exam_result_details")
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @EntityListeners(value = BaseEntityListener.class)
-public class QuestionListDetailEntity extends BaseEntity {
+public class ExamResultDetail extends BaseEntity {
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "exam_result_id", referencedColumnName = "id")
+  ExamResult examResult;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "question_id", referencedColumnName = "id")
-  private QuestionEntity question;
+  Question question;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "question_list_id", referencedColumnName = "id")
-  private QuestionListEntity questionList;
-
+  @JoinColumn(name = "answer_id", referencedColumnName = "id")
+  Answer answer;
 }

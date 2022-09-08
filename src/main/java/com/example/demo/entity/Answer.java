@@ -18,24 +18,23 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "exam_result")
+@Table(name = "answers")
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @EntityListeners(value = BaseEntityListener.class)
-public class ExamResultEntity extends BaseEntity {
+public class Answer extends BaseEntity {
+  @Column(name = "content")
+  private String content;
+
+  @Column(name = "is_correct")
+  private int is_correct;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "exam_application_id", referencedColumnName = "id")
-  private ExamApplicationEntity exam_application;
+  @JoinColumn(name = "question_id", referencedColumnName = "id")
+  Question question;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "exam_result")
-  List<ExamResultDetailEntity> exam_result_details;
-
-  @Column(name = "num_correct_answers")
-  private int num_correct_answers;
-
-  @Column(name = "time_taken")
-  private long time_taken;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "answer")
+  List<ExamResultDetail> exam_result_details;
 }

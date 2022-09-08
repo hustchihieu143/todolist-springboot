@@ -1,14 +1,11 @@
 package com.example.demo.security.services;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
@@ -24,7 +21,7 @@ public class UserDetailsImpl implements UserDetails {
     this.password = password;
   }
 
-  public static UserDetailsImpl build(UserEntity user) {
+  public static UserDetailsImpl build(User user) {
 
     return new UserDetailsImpl(
         user.getEmail(),

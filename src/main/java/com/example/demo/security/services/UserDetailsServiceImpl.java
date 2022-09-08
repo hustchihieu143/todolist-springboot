@@ -1,15 +1,13 @@
 package com.example.demo.security.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.example.demo.entity.UserEntity;
+import com.example.demo.entity.User;
 import com.example.demo.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     // TODO Auto-generated method stub
-    UserEntity user = userRepository.findByEmail(email);
+    User user = userRepository.findByEmail(email);
 
     return (UserDetails) UserDetailsImpl.build(user);
 
