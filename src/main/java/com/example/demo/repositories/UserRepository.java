@@ -7,6 +7,5 @@ import com.example.demo.entity.User;
 
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
-
   User findByEmail(String email);
 }

@@ -8,14 +8,12 @@ import com.example.demo.entity.User;
 import com.example.demo.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
