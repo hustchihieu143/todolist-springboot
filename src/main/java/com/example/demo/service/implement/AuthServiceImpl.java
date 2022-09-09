@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
           .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
       log.info("authenticated: ", authenticate.toString());
       String accessToken = jwtTokenUtil.generateAccessToken((UserDetails) authenticate.getPrincipal());
-      System.out.println(accessToken);
+
       UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
       User user = userRepository.findByEmail(userDetails.getUsername());
 

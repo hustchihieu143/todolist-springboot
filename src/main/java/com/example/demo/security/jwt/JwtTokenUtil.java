@@ -36,8 +36,7 @@ public class JwtTokenUtil {
         .setSigningKey(jwtSecret)
         .parseClaimsJws(token)
         .getBody();
-
-    return claims.getSubject().split(",")[1];
+    return claims.getSubject().split(",")[0];
   }
 
   public Date getExpirationDate(String token) {

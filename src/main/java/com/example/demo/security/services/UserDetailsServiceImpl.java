@@ -17,9 +17,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    System.out.println("inside load");
     // TODO Auto-generated method stub
     User user = userRepository.findByEmail(email);
-
+    System.out.println("user: " + user);
     return (UserDetails) UserDetailsImpl.build(user);
 
   }
