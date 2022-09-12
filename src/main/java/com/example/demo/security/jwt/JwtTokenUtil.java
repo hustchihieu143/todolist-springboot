@@ -31,7 +31,7 @@ public class JwtTokenUtil {
         .compact();
   }
 
-  public String getLoginId(String token) {
+  public String getEmail(String token) {
     Claims claims = Jwts.parser()
         .setSigningKey(jwtSecret)
         .parseClaimsJws(token)

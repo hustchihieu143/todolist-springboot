@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MainController {
-  @RequestMapping(value = "/", method = RequestMethod.GET)
+  @RequestMapping(value = "/test", method = RequestMethod.GET)
   @ResponseBody
   public String hello() {
     return "Hello Spring Boot test";

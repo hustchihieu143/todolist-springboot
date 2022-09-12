@@ -22,7 +22,7 @@ public class UserDetailsImpl implements UserDetails {
   }
 
   public static UserDetailsImpl build(User user) {
-
+    System.out.println("inside build");
     return new UserDetailsImpl(
         user.getEmail(),
         user.getPassword());
