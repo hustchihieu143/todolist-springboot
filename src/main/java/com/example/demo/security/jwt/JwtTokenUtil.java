@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.constants.SystemConstant;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +28,24 @@ public class JwtTokenUtil {
     return Jwts.builder()
         .setSubject(user.getUsername())
         .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+        .setExpiration(new Date(System.currentTimeMillis() + SystemConstant.accessTokenExpired))
+        .signWith(SignatureAlgorithm.HS512, jwtSecret)
+        .compact();
+  }
+
+  public String generateRefreshToken(UserDetails user) {
+    logger.info("generating refresh token");
+    return Jwts.builder()
+        .setSubject(user.getUsername())
+        .setIssuedAt(new Date())
+        .setExpiration(new Date(System.currentTimeMillis() + SystemConstant.refreshTokenExpired))
+        .signWith(SignatureAlgorithm.HS512, jwtSecret)
+        .compact();
+  }
+
+  public String generateTokenFromEmail(String email) {
+    return Jwts.builder().setSubject(email).setIssuedAt(new Date())
+        .setExpiration(new Date((new Date()).getTime() + SystemConstant.accessTokenExpired))
         .signWith(SignatureAlgorithm.HS512, jwtSecret)
         .compact();
   }
@@ -36,6 +55,9 @@ public class JwtTokenUtil {
         .setSigningKey(jwtSecret)
         .parseClaimsJws(token)
         .getBody();
+    System.out.println("test: " + Jwts.parser()
+        .setSigningKey(jwtSecret)
+        .parseClaimsJws(token).getBody());
     return claims.getSubject().split(",")[0];
   }
 
