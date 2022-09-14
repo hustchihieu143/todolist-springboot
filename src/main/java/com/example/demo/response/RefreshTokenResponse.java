@@ -7,11 +7,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AuthResponse {
-  @JsonProperty("id")
-  private Long id;
-  @JsonProperty("email")
-  private String email;
+public class RefreshTokenResponse {
   @JsonProperty("access_token")
   private String accessToken;
   @JsonProperty("refresh_token")

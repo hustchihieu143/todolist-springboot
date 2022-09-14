@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.User;
 import com.example.demo.request.AuthRequest;
+import com.example.demo.request.RefreshTokenRequest;
 import com.example.demo.request.UserRequest;
 import com.example.demo.response.BaseResponse;
+import com.example.demo.response.RefreshTokenResponse;
 import com.example.demo.response.AuthResponse;
 import com.example.demo.service.AuthService;
 
@@ -33,9 +35,12 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest loginRequest) {
-    System.out.println("okok");
-    System.out.println(loginRequest);
     return ResponseEntity.ok(authService.login(loginRequest));
+  }
+
+  @PostMapping("/refresh_token")
+  public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenRequest token) {
+    return ResponseEntity.ok(authService.RefreshToken(token.getToken()));
   }
 
 }
