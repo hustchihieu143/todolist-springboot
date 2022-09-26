@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    username: demo
+    password: 1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3310/demo?createDatabaseIfNotExist=TRUE
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    properties:
+      hibernate:
+        ddl-auto: create
+        format_sql: true
+        jdbc:
+          batch_size: 20
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 5014057553-8gm9um6vnli3cle5rgigcdjpdrid14m9.apps.googleusercontent.com
+            client-secret: tWZKVLxaD_ARWsriiiUFYoIk
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            client-authentication-method: none
+            scope:
+              - email
+              - profile
+
+
+server:
+  servlet:
+    context-path: /
+    port: 8080
+
+cache:
+  type: redis
+
+redis:
+  host: localhost
+  port: 8081
+  expire_time: 2

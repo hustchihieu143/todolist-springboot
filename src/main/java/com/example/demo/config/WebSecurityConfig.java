@@ -1,20 +1,17 @@
 package com.example.demo.config;
 
-import lombok.AllArgsConstructor;
-
 import com.example.demo.security.jwt.AuthEntryPointJwt;
 import com.example.demo.security.jwt.JwtTokenFilter;
 import com.example.demo.security.oauth2.CustomOAuth2User;
+import com.example.demo.security.oauth2.CustomOAuth2UserService;
+import com.example.demo.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.example.demo.security.services.UserDetailsServiceImpl;
-import com.example.demo.service.CustomOAuth2UserService;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,80 +24,86 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-    // securedEnabled = true,
-    // jsr250Enabled = true,
-    prePostEnabled = true)
+        // securedEnabled = true,
+        // jsr250Enabled = true,
+        prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired
-  UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
-  @Autowired
-  private AuthEntryPointJwt unauthorizedHandler;
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
-  @Bean
-  public JwtTokenFilter authenticationJwtTokenFilter() {
-    return new JwtTokenFilter();
-  }
+    @Autowired
+    private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
-  @Override
-  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-  }
+    @Bean
+    public JwtTokenFilter authenticationJwtTokenFilter() {
+        return new JwtTokenFilter();
+    }
 
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-  @Autowired
-  private CustomOAuth2UserService oauthUserService;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/auth/**", "/login", "/oauth/**").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .formLogin().permitAll()
-        .and()
-        .oauth2Login()
-        .loginPage("/login")
-        .userInfoEndpoint()
-        .userService(oauthUserService)
-        .and()
-        .successHandler((AuthenticationSuccessHandler) new AuthenticationSuccessHandler() {
 
-          @Override
-          public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-              Authentication authentication) throws IOException, ServletException {
 
-            CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .cors()
+                .and()
+            .csrf()
+                .disable()
+            .exceptionHandling()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+            .formLogin()
+                .disable()
+            .httpBasic()
+                .disable()
+            .authorizeRequests()
+                .antMatchers("/auth/**", "/login", "/oauth/**")
+                .permitAll()
+            .anyRequest()
+                .authenticated()
+                .and()
+            .oauth2Login()
+                .authorizationEndpoint()
+                    .baseUri("/oauth2/authorize")
+                    .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
+                    .and()
+                .redirectionEndpoint()
+                    .baseUri("oauth2/callback/*")
+                    .and()
+                .userInfoEndpoint()
+                    .userService(customOAuth2UserService);
 
-            System.out.println("okokoko");
-          }
-        });
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-  }
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
 }
