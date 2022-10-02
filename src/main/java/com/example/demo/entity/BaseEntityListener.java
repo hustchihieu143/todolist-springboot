@@ -15,7 +15,6 @@ public class BaseEntityListener {
   public void prepareBeforeCreate(BaseEntity baseModel) {
     baseModel.setCreatedAt(new Timestamp(System.currentTimeMillis()));
     baseModel.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-    baseModel.setIsDeleted(false);
   }
 
   /**

@@ -1,13 +1,15 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import com.example.demo.common.Difficulty;
+import com.example.demo.common.QuestionType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,27 +20,31 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@AllArgsConstructor
 @EntityListeners(value = BaseEntityListener.class)
 public class Question extends BaseEntity {
-  @Column(name = "type")
-  private int type;
+  @Enumerated()
+  private QuestionType type;
 
   @Column(name = "question_text")
-  private String question_text;
+  private String questionText;
 
-  @Column(name = "difficulty")
-  private int difficulty;
+  @Enumerated()
+  private Difficulty difficulty;
 
   @Column(name = "explanation")
-  private int explanation;
+  private String explanation;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
-  List<QuestionListDetail> question_list_detail;
+  @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JsonManagedReference("question_answers")
+  private List<Answer> answers = new ArrayList<>();
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
-  List<ExamDetail> exam_detail;
+  @ManyToMany(targetEntity = QuestionList.class, fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "question_list_details",
+      joinColumns = @JoinColumn(name = "question_id"),
+      inverseJoinColumns = @JoinColumn(name = "question_list_id")
+  )
+  private List<QuestionList> questionLists;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
-  List<ExamResultDetail> exam_result_detail;
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.User;
-import com.example.demo.request.UserRequest;
+import com.example.demo.dto.request.UserRequest;
 
 import lombok.AllArgsConstructor;
 

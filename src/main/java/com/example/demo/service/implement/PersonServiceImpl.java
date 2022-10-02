@@ -6,16 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Person;
-import com.example.demo.exception.ErrorResponse;
 import com.example.demo.mapper.PersonMapper;
-import com.example.demo.repositories.PersonRepository;
-import com.example.demo.request.PersonRequest;
-import com.example.demo.response.PersonResponse;
+import com.example.demo.repository.PersonRepository;
+import com.example.demo.dto.request.PersonRequest;
+import com.example.demo.dto.response.PersonResponse;
 import com.example.demo.service.PersonService;
 
 import lombok.AllArgsConstructor;

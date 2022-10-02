@@ -27,6 +27,6 @@ public class BaseEntity implements Serializable {
   @Column(name = "updated_at")
   protected Timestamp updatedAt;
 
-  @Column(name = "is_deleted")
-  protected Boolean isDeleted;
+  @Column(name = "deleted_at")
+  protected Timestamp deletedAt;
 }

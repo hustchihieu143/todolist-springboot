@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Product;
-import com.example.demo.response.BaseResponse;
+import com.example.demo.dto.response.BaseResponse;
 import com.example.demo.service.ProductService;
 
 import lombok.AllArgsConstructor;

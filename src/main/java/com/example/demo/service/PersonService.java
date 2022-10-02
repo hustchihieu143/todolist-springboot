@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 
 import com.example.demo.entity.Person;
 
-import com.example.demo.request.PersonRequest;
-import com.example.demo.response.PersonResponse;
+import com.example.demo.dto.request.PersonRequest;
+import com.example.demo.dto.response.PersonResponse;
 
 public interface PersonService {
 

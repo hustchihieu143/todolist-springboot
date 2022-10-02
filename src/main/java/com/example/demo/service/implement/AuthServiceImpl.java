@@ -4,13 +4,11 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.User;
-import com.example.demo.exception.BusinessCode;
-import com.example.demo.exception.BusinessException;
 import com.example.demo.mapper.UserMapper;
-import com.example.demo.repositories.UserRepository;
-import com.example.demo.request.AuthRequest;
-import com.example.demo.request.UserRequest;
-import com.example.demo.response.AuthResponse;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.dto.request.AuthRequest;
+import com.example.demo.dto.request.UserRequest;
+import com.example.demo.dto.response.AuthResponse;
 import com.example.demo.security.jwt.JwtTokenUtil;
 import com.example.demo.service.AuthService;
 
@@ -36,9 +34,9 @@ public class AuthServiceImpl implements AuthService {
   public User createUser(UserRequest userRequest) {
     User user = new User();
     user = userRepository.findByEmail(userRequest.getEmail());
-    if (user != null) {
-      throw new BusinessException(BusinessCode.ALREADY_EXISTS_USER);
-    }
+//    if (user != null) {
+//      throw new ApplicationException(BusinessCode.ALREADY_EXISTS_USER);
+//    }
     user = userMapper.to(userRequest);
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.User;
-import com.example.demo.request.AuthRequest;
-import com.example.demo.request.UserRequest;
-import com.example.demo.response.BaseResponse;
-import com.example.demo.response.AuthResponse;
+import com.example.demo.dto.request.AuthRequest;
+import com.example.demo.dto.request.UserRequest;
+import com.example.demo.dto.response.BaseResponse;
+import com.example.demo.dto.response.AuthResponse;
 import com.example.demo.service.AuthService;
 
 import lombok.AllArgsConstructor;

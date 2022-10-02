@@ -2,12 +2,7 @@ package com.example.demo.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,4 +25,12 @@ public class QuestionList extends BaseEntity {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionList")
   List<QuestionListDetail> details;
+
+  @ManyToMany(targetEntity = Question.class, fetch = FetchType.LAZY)
+  @JoinTable(
+          name = "question_list_details",
+          joinColumns = @JoinColumn(name = "question_list_id"),
+          inverseJoinColumns = @JoinColumn(name = "question_id")
+  )
+  private List<Question> questions;
 }

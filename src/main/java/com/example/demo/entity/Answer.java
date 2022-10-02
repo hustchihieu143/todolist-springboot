@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,12 +30,10 @@ public class Answer extends BaseEntity {
   private String content;
 
   @Column(name = "is_correct")
-  private int is_correct;
+  private int isCorrect;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "question_id", referencedColumnName = "id")
-  Question question;
-
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "answer")
-  List<ExamResultDetail> exam_result_details;
+  @JsonBackReference("question_answers")
+  @JoinColumn(name = "question_id", nullable = false)
+  private Question question;
 }
